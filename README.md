@@ -2,9 +2,12 @@
 
 ## This code
 
-Mars Rover kata in Lua. Kata instructions taken from here:
-https://github.com/priyaaank/MarsRover. The instructions are also included
-below, inline.
+Mars Rover kata in Lua. I didn't figure out how to make classes in Lua, or even
+organise my code in different files. I at least figured out how to write unit
+tests, and use a package manager in a somewhat primitive way.
+
+Kata instructions taken from here: https://github.com/priyaaank/MarsRover. The
+instructions are also included below, inline.
 
 ## Kata Introduction
 

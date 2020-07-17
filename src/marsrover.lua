@@ -88,12 +88,16 @@ function hasCollision(object1, object2)
 end
 
 function checkCrashesWithinPlateau(simulatedRover)
-    if tablex.size(simulatedRover.plateau.objects) == 2 then
-        local object1 = simulatedRover.plateau.objects[1]
-        local object2 = simulatedRover.plateau.objects[2]
-        if hasCollision(object1, object2) then
-            object1.crashed = true
-            object2.crashed = true
+    --noinspection UnassignedVariableAccess
+    for index1, object1 in pairs(simulatedRover.plateau.objects) do
+        --noinspection UnassignedVariableAccess
+        for index2, object2 in pairs(simulatedRover.plateau.objects) do
+            if not (object1 == object2) then
+                if hasCollision(object1, object2) then
+                    object1.crashed = true
+                    object2.crashed = true
+                end
+            end
         end
     end
 end

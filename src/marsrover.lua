@@ -8,14 +8,20 @@
 tablex = require('pl.tablex')
 
 function plateau(width, length)
+    return {
+        width = width,
+        length = length
+    }
 end
 
-function simulatedRover(x, y, direction, remainingInstructions)
+function simulatedRover(x, y, direction, remainingInstructions, plateau)
     return {
         x = x,
         y = y,
         direction = direction,
-        remainingInstructions = remainingInstructions
+        remainingInstructions = remainingInstructions,
+        plateau = plateau,
+        crashed = false
     }
 end
 
@@ -66,14 +72,21 @@ function movementComponents(simulatedRover)
     }
 end
 
+function outOfBounds(simulatedRover)
+    return simulatedRover.x > simulatedRover.plateau.width or simulatedRover.y > simulatedRover.plateau.length
+end
+
 function moveForwards(simulatedRover)
     local components = movementComponents(simulatedRover)
     simulatedRover.y = simulatedRover.y + components.dy
     simulatedRover.x = simulatedRover.x + components.dx
+    if outOfBounds(simulatedRover) then
+        simulatedRover.crashed = true
+    end
 end
 
 function simulateNextInstruction(simulatedRover)
-    if simulatedRover.remainingInstructions == "" then
+    if simulatedRover.remainingInstructions == "" or simulatedRover.crashed then
         return
     end
     if nextInstruction(simulatedRover) == "M" then
@@ -90,7 +103,7 @@ function hasRemainingInstructions(simulatedRover)
     return not (simulatedRover.remainingInstructions == "")
 end
 
-function simulate(plateau, simulatedRovers)
+function simulate(simulatedRovers)
     while hasRemainingInstructions(simulatedRovers[1]) do
         simulateNextInstruction(simulatedRovers[1])
     end

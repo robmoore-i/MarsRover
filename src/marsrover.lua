@@ -19,6 +19,10 @@ function simulatedRover(x, y, direction, remainingInstructions)
     }
 end
 
+function beheadString(s)
+    return string.sub(s, 2, string.len(s))
+end
+
 function nextInstruction(simulatedRover)
     return string.sub(simulatedRover.remainingInstructions, 0, 1)
 end
@@ -62,8 +66,10 @@ function movementComponents(simulatedRover)
     }
 end
 
-function beheadString(s)
-    return string.sub(s, 2, string.len(s))
+function moveForwards(simulatedRover)
+    local components = movementComponents(simulatedRover)
+    simulatedRover.y = simulatedRover.y + components.dy
+    simulatedRover.x = simulatedRover.x + components.dx
 end
 
 function simulateNextInstruction(simulatedRover)
@@ -71,9 +77,7 @@ function simulateNextInstruction(simulatedRover)
         return
     end
     if nextInstruction(simulatedRover) == "M" then
-        local components = movementComponents(simulatedRover)
-        simulatedRover.y = simulatedRover.y + components.dy
-        simulatedRover.x = simulatedRover.x + components.dx
+        moveForwards(simulatedRover)
     elseif nextInstruction(simulatedRover) == "L" then
         turnLeft(simulatedRover)
     elseif nextInstruction(simulatedRover) == "R" then

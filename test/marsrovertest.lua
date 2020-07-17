@@ -140,5 +140,20 @@ function testInstructionsDoNothingIfRoverIsCrashed()
     luaunit.assertEquals(rover.direction, "E")
 end
 
+function testRoversCanCrashIntoEachOther()
+    local plateau = plateau(5, 5)
+    local rover1 = simulatedRover(1, 2, "N", "M", plateau)
+    local rover2 = simulatedRover(1, 3, "E", "L", plateau)
+    simulateNextInstruction(rover1)
+    luaunit.assertEquals(rover1.crashed, true)
+    luaunit.assertEquals(rover1.x, 1)
+    luaunit.assertEquals(rover1.y, 3)
+    luaunit.assertEquals(rover1.direction, "N")
+    luaunit.assertEquals(rover2.crashed, true)
+    luaunit.assertEquals(rover2.x, 1)
+    luaunit.assertEquals(rover2.y, 3)
+    luaunit.assertEquals(rover2.direction, "E")
+end
+
 os.exit(luaunit.LuaUnit.run())
 

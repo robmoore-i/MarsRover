@@ -10,12 +10,17 @@ tablex = require('pl.tablex')
 function plateau(width, length)
     return {
         width = width,
-        length = length
+        length = length,
+        objects = {}
     }
 end
 
+function addObjectToPlateau(plateau, object)
+    plateau.objects[#plateau.objects + 1] = object
+end
+
 function simulatedRover(x, y, direction, remainingInstructions, plateau)
-    return {
+    local rover = {
         x = x,
         y = y,
         direction = direction,
@@ -23,6 +28,8 @@ function simulatedRover(x, y, direction, remainingInstructions, plateau)
         plateau = plateau,
         crashed = false
     }
+    addObjectToPlateau(plateau, rover)
+    return rover
 end
 
 function beheadString(s)
@@ -76,6 +83,21 @@ function outOfBounds(simulatedRover)
     return simulatedRover.x > simulatedRover.plateau.width or simulatedRover.y > simulatedRover.plateau.length
 end
 
+function hasCollision(object1, object2)
+    return object1.x == object2.x and object1.y == object2.y
+end
+
+function checkCrashesWithinPlateau(simulatedRover)
+    if tablex.size(simulatedRover.plateau.objects) == 2 then
+        local object1 = simulatedRover.plateau.objects[1]
+        local object2 = simulatedRover.plateau.objects[2]
+        if hasCollision(object1, object2) then
+            object1.crashed = true
+            object2.crashed = true
+        end
+    end
+end
+
 function moveForwards(simulatedRover)
     local components = movementComponents(simulatedRover)
     simulatedRover.y = simulatedRover.y + components.dy
@@ -83,6 +105,7 @@ function moveForwards(simulatedRover)
     if outOfBounds(simulatedRover) then
         simulatedRover.crashed = true
     end
+    checkCrashesWithinPlateau(simulatedRover)
 end
 
 function simulateNextInstruction(simulatedRover)

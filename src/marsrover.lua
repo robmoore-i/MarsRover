@@ -104,15 +104,25 @@ function hasRemainingInstructions(simulatedRover)
 end
 
 function anyRoversHaveRemainingInstructions(simulatedRovers)
-    for k, v in pairs(simulatedRovers) do
-        print(k)
+    --noinspection UnassignedVariableAccess
+    for index, rover in pairs(simulatedRovers) do
+        if hasRemainingInstructions(rover) then
+            return true
+        end
+    end
+    return false
+end
+
+function simulateInstructions(simulatedRovers)
+    --noinspection UnassignedVariableAccess
+    for index, rover in pairs(simulatedRovers) do
+        simulateNextInstruction(rover)
     end
 end
 
 function simulate(simulatedRovers)
-    while hasRemainingInstructions(simulatedRovers[1]) do
-        anyRoversHaveRemainingInstructions(simulatedRovers)
-        simulateNextInstruction(simulatedRovers[1])
+    while anyRoversHaveRemainingInstructions(simulatedRovers) do
+        simulateInstructions(simulatedRovers)
     end
-    return { simulatedRovers[1] }
+    return simulatedRovers
 end

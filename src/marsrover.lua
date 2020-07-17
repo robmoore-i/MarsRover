@@ -87,11 +87,11 @@ function hasCollision(object1, object2)
     return object1.x == object2.x and object1.y == object2.y
 end
 
-function checkCrashesWithinPlateau(simulatedRover)
+function checkForCollisions(plateau)
     --noinspection UnassignedVariableAccess
-    for index1, object1 in pairs(simulatedRover.plateau.objects) do
+    for index1, object1 in pairs(plateau.objects) do
         --noinspection UnassignedVariableAccess
-        for index2, object2 in pairs(simulatedRover.plateau.objects) do
+        for index2, object2 in pairs(plateau.objects) do
             if not (object1 == object2) then
                 if hasCollision(object1, object2) then
                     object1.crashed = true
@@ -109,7 +109,7 @@ function moveForwards(simulatedRover)
     if outOfBounds(simulatedRover) then
         simulatedRover.crashed = true
     end
-    checkCrashesWithinPlateau(simulatedRover)
+    checkForCollisions(simulatedRover.plateau)
 end
 
 function simulateNextInstruction(simulatedRover)

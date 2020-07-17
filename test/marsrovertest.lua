@@ -25,6 +25,21 @@ function testSecondExampleRover()
     luaunit.assertEquals(firstRover.remainingInstructions, "")
 end
 
+function testBothExampleRovers()
+    local plateau = plateau(5, 5)
+    local rovers = {
+        simulatedRover(1, 2, "N", "LMLMLMLMM", plateau),
+        simulatedRover(3, 3, "E", "MMRMMRMRRM", plateau)
+    }
+    local simulatedRovers = simulate()
+    luaunit.assertEquals(tablex.size(simulatedRovers), 1)
+    local firstRover = simulatedRovers[1]
+    luaunit.assertEquals(firstRover.x, 5)
+    luaunit.assertEquals(firstRover.y, 1)
+    luaunit.assertEquals(firstRover.direction, "E")
+    luaunit.assertEquals(firstRover.remainingInstructions, "")
+end
+
 function testTurningLeft()
     local rover = simulatedRover(1, 2, "N", "LLLL", plateau(5, 5))
     simulateNextInstruction(rover)

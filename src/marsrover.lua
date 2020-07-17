@@ -103,8 +103,15 @@ function hasRemainingInstructions(simulatedRover)
     return not (simulatedRover.remainingInstructions == "")
 end
 
+function anyRoversHaveRemainingInstructions(simulatedRovers)
+    for k, v in pairs(simulatedRovers) do
+        print(k)
+    end
+end
+
 function simulate(simulatedRovers)
     while hasRemainingInstructions(simulatedRovers[1]) do
+        anyRoversHaveRemainingInstructions(simulatedRovers)
         simulateNextInstruction(simulatedRovers[1])
     end
     return { simulatedRovers[1] }

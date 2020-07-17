@@ -7,6 +7,8 @@
 --noinspection UnassignedVariableAccess
 tablex = require('pl.tablex')
 
+-- PLATEAU
+
 function plateau(width, length)
     return {
         width = width,
@@ -18,6 +20,27 @@ end
 function addObjectToPlateau(plateau, object)
     plateau.objects[#plateau.objects + 1] = object
 end
+
+function hasCollision(object1, object2)
+    return object1.x == object2.x and object1.y == object2.y
+end
+
+function checkForCollisions(plateau)
+    --noinspection UnassignedVariableAccess
+    for index1, object1 in pairs(plateau.objects) do
+        --noinspection UnassignedVariableAccess
+        for index2, object2 in pairs(plateau.objects) do
+            if not (object1 == object2) then
+                if hasCollision(object1, object2) then
+                    object1.crashed = true
+                    object2.crashed = true
+                end
+            end
+        end
+    end
+end
+
+-- SIMULATED ROVER
 
 function simulatedRover(x, y, direction, remainingInstructions, plateau)
     local rover = {
@@ -83,25 +106,6 @@ function outOfBounds(simulatedRover)
     return simulatedRover.x > simulatedRover.plateau.width or simulatedRover.y > simulatedRover.plateau.length
 end
 
-function hasCollision(object1, object2)
-    return object1.x == object2.x and object1.y == object2.y
-end
-
-function checkForCollisions(plateau)
-    --noinspection UnassignedVariableAccess
-    for index1, object1 in pairs(plateau.objects) do
-        --noinspection UnassignedVariableAccess
-        for index2, object2 in pairs(plateau.objects) do
-            if not (object1 == object2) then
-                if hasCollision(object1, object2) then
-                    object1.crashed = true
-                    object2.crashed = true
-                end
-            end
-        end
-    end
-end
-
 function moveForwards(simulatedRover)
     local components = movementComponents(simulatedRover)
     simulatedRover.y = simulatedRover.y + components.dy
@@ -129,6 +133,8 @@ end
 function hasRemainingInstructions(simulatedRover)
     return not (simulatedRover.remainingInstructions == "")
 end
+
+-- SIMULATION
 
 function anyRoversHaveRemainingInstructions(simulatedRovers)
     --noinspection UnassignedVariableAccess

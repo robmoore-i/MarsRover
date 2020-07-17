@@ -6,7 +6,7 @@ require('src/marsrover')
 tablex = require('pl.tablex')
 
 function testFirstExampleRover()
-    local simulatedRovers = simulate(plateau(5, 5), simulatedRover(1, 2, "N", "LMLMLMLMM"))
+    local simulatedRovers = simulate(plateau(5, 5), {simulatedRover(1, 2, "N", "LMLMLMLMM")})
     luaunit.assertEquals(tablex.size(simulatedRovers), 1)
     local firstRover = simulatedRovers[1]
     luaunit.assertEquals(firstRover.x, 1)
@@ -16,7 +16,7 @@ function testFirstExampleRover()
 end
 
 function testSecondExampleRover()
-    local simulatedRovers = simulate(plateau(5, 5), simulatedRover(3, 3, "E", "MMRMMRMRRM"))
+    local simulatedRovers = simulate(plateau(5, 5), {simulatedRover(3, 3, "E", "MMRMMRMRRM")})
     luaunit.assertEquals(tablex.size(simulatedRovers), 1)
     local firstRover = simulatedRovers[1]
     luaunit.assertEquals(firstRover.x, 5)
@@ -78,6 +78,16 @@ function testMovingEast()
     simulateNextInstruction(rover)
     luaunit.assertEquals(rover.x, 6)
     luaunit.assertEquals(rover.y, 3)
+    luaunit.assertEquals(rover.direction, "E")
+end
+
+function testDoesNothingIfNoMoreInput()
+    local rover = simulatedRover(2, 4, "E", "")
+    simulateNextInstruction(rover)
+    simulateNextInstruction(rover)
+    simulateNextInstruction(rover)
+    luaunit.assertEquals(rover.x, 2)
+    luaunit.assertEquals(rover.y, 4)
     luaunit.assertEquals(rover.direction, "E")
 end
 
